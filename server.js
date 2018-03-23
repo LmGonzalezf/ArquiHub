@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');    //importar body-parser
 var mongoose   = require('mongoose');       //importar mongoose
 var url = 'mongodb://localhost:27017/ArquiHub';    //url de la base de datos MongoDB
 var mqtt = require('mqtt')                  // importar mqtt
-var client  = mqtt.connect('mqtt:') ///// FALTA CONFIGURAR ESTO, IP de donde está alojado el MQTT
+var client  = mqtt.connect('mqtt:172.24.42.92:8083') ///// FALTA CONFIGURAR ESTO, IP de donde está alojado el MQTT
 
 
 //CONEXIÓN A BASE DE DATOS
@@ -40,19 +40,19 @@ client.on('connect', function () {   //Cuando se conecte
 
 client.on('message', function (topic, message) { //Cuando haya un mensaje
   // message is Buffer
-  var alarma = new alarmas();      // create a new instance of the Bear model
-  alarma.name = message.body.name;
-  alarma.descripcion = message.body.descripcion;
-  alarma.date = message.body.date;
-  alarma.codigo = message.body.codigo; // set the bears name (comes from the request)
+  //var alarma = new alarmas();      // create a new instance of the Bear model
+  //alarma.name = message.body.name;
+  //alarma.descripcion = message.body.descripcion;
+  //alarma.date = message.body.date;
+  //alarma.codigo = message.body.codigo; // set the bears name (comes from the request)
 
   // save the bear and check for errors
-  alarma.save(function(err) {
-      if (err)
-          res.send(err);
+  //alarma.save(function(err) {
+  //    if (err)
+  //        res.send(err);
 
-      res.json({ message: 'Alarma created!' });
-  });
+  //    res.json({ message: 'Alarma created!' });
+  //});
   console.log(message.toString())
   client.end()
 })
@@ -78,17 +78,17 @@ router.get('/', function(req, res) {
 // on routes that end in /bears
 // ----------------------------------------------------
 
-
+// RUTAS PARA ALARMAS
+// ===================================================================
 router.route('/alarmas')
 
     //Get de todas las alarmas
     .get(function(req, res) {
-      console.log('entró 1');
         alarmas.find({}, function finded(err, media){
-          if(err){console.log('errosrasfjabf')};
+          if(err){console.log(err)};
           console.log(media);
           res.json({media});
-        }); console.log('JUEPUTA');
+        });
     })
 
     //Post de todas las alarmas
@@ -116,7 +116,8 @@ router.route('/alarmas')
     });
 
 
-
+// RUTAS PARA UNIDAD RESIDENCIAL
+// ============================================================
 
 
 // REGISTER OUR ROUTES -------------------------------
