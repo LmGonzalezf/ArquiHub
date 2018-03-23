@@ -45,6 +45,9 @@ client.on('message', function (topic, message) { //Cuando haya un mensaje
   //alarma.descripcion = message.body.descripcion;
   //alarma.date = message.body.date;
   //alarma.codigo = message.body.codigo; // set the bears name (comes from the request)
+  //alarma.cerradura = req.body.cerradura;
+  //alarma.inmueble = req.body.inmueble;
+  //alrma.unidadResidencial = req.body.unidadResidencial
 
   // save the bear and check for errors
   //alarma.save(function(err) {
@@ -97,6 +100,9 @@ router.route('/alarmas')
     //  "codigo": String
     //  "descripcion": String
     //  "date": String
+    //  "cerradura": String
+    //  "inmueble": String
+    //  "unidadResidencial": String
     .post(function(req, res) {
 
         var alarma = new alarmas();      // create a new instance of the Bear model
@@ -104,6 +110,9 @@ router.route('/alarmas')
         alarma.descripcion = req.body.descripcion;
         alarma.date = req.body.date;
         alarma.codigo = req.body.codigo; // set the bears name (comes from the request)
+        alarma.cerradura = req.body.cerradura;
+        alarma.inmueble = req.body.inmueble;
+        alrma.unidadResidencial = req.body.unidadResidencial
 
         // save the bear and check for errors
         alarma.save(function(err) {

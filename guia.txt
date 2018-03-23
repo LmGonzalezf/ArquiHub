@@ -6,3 +6,6 @@ Formato de las alarmas
   //  "codigo": String
   //  "descripcion": String
   //  "date": String
+  //  "cerradura": String
+  //  "inmueble": String
+  //  "unidadResidencial": String
