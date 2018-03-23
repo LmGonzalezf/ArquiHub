@@ -64,7 +64,7 @@ router.route('/alarmas')
     .post(function(req, res) {
 
         var alarma = new alarmas();      // create a new instance of the Bear model
-        alarma.name = req.body.alarma;
+        alarma.name = req.body.name;
         alarma.descripcion = req.body.descripcion;
         alarma.date = req.body.date;
         alarma.codigo = req.body.codigo; // set the bears name (comes from the request)
@@ -95,16 +95,17 @@ router.route('/alarmas')
           })
         .post(function(req, res) {
 
-            var unidadResidencial = new alarmas();      // create a new instance of the Bear model
-            unidadResidencial.name = req.body.alarma;
-            unidadResidencial.codigo = req.body.codigo; // set the bears name (comes from the request)
+            var unidadResidencial = new unidadResidencial();      
+            unidadResidencial.name = req.body.name;
+            unidadResidencial.codigo = req.body.codigo;
+            unidadResidencial.inmueble = req.body.inmueble;
 
             // save the bear and check for errors
-            alarma.save(function(err) {
+            unidadResidencial.save(function(err) {
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'Alarma created!' });
+                res.json({ message: 'Unidad Residencial creada!' });
             });
 
         });
@@ -152,7 +153,40 @@ router.route('/unidadResidencial/:unidadResidencial')
         });
     });
 
+// on routes that end in /bears
+// ----------------------------------------------------
 
+
+router.route('/inmbuebles')
+
+      .get(function(req, res) {
+      console.log('entró 1');
+      inmueble.find({}, function finded(err, media){
+          if(err){
+            console.log('errosrasfjabf')
+          };
+          console.log(media);
+          res.json({media});
+        }); console.log('JUEPUTA');
+      })
+
+    .post(function(req, res) {
+
+        var inmueble = new inmueble();      // create a new instance of the Bear model
+        inmueble.name = req.body.name;
+        inmueble.codUnidadResidencial = req.body.codUnidadResidencial;
+        inmueble.id = req.body.id;
+        inmueble.codHub = req.body.codHub; // set the bears name (comes from the request)
+
+        // save the bear and check for errors
+        alarma.save(function(err) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Alarma created!' });
+        });
+
+    });
 
 
 // REGISTER OUR ROUTES -------------------------------
