@@ -26,39 +26,6 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;        // set our port
 
-<<<<<<< HEAD
-=======
-
-// PARTE DE MQTT
-// ==============================================================================
-client.on('connect', function () {   //Cuando se conecte
-  client.subscribe('alarmas')
-  client.publish('alarmas', 'Hello mqtt')
-})
-
-client.on('message', function (topic, message) { //Cuando haya un mensaje
-  // message is Buffer
-  //var alarma = new alarmas();      // create a new instance of the Bear model
-  //alarma.name = message.body.name;
-  //alarma.descripcion = message.body.descripcion;
-  //alarma.date = message.body.date;
-  //alarma.codigo = message.body.codigo; // set the bears name (comes from the request)
-  //alarma.cerradura = req.body.cerradura;
-  //alarma.inmueble = req.body.inmueble;
-  //alrma.unidadResidencial = req.body.unidadResidencial
-
-  // save the bear and check for errors
-  //alarma.save(function(err) {
-  //    if (err)
-  //        res.send(err);
-
-  //    res.json({ message: 'Alarma created!' });
-  //});
-  console.log(message.toString())
-  client.end()
-})
-
->>>>>>> 3b823f3f5b955a303bea8341e7ad058a436af440
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
@@ -94,28 +61,13 @@ router.route('/alarmas')
         }); console.log('JUEPUTA');
       })
 
-<<<<<<< HEAD
-=======
-    //Post de todas las alarmas
-    //El cuerpo del post debe ser
-    //  "name": String
-    //  "codigo": String
-    //  "descripcion": String
-    //  "date": String
-    //  "cerradura": String
-    //  "inmueble": String
-    //  "unidadResidencial": String
->>>>>>> 3b823f3f5b955a303bea8341e7ad058a436af440
     .post(function(req, res) {
 
         var alarma = new alarmas();      // create a new instance of the Bear model
-        alarma.name = req.body.name;
+        alarma.name = req.body.alarma;
         alarma.descripcion = req.body.descripcion;
         alarma.date = req.body.date;
         alarma.codigo = req.body.codigo; // set the bears name (comes from the request)
-        alarma.cerradura = req.body.cerradura;
-        alarma.inmueble = req.body.inmueble;
-        alrma.unidadResidencial = req.body.unidadResidencial
 
         // save the bear and check for errors
         alarma.save(function(err) {
@@ -143,17 +95,16 @@ router.route('/alarmas')
           })
         .post(function(req, res) {
 
-            var unidadResidencial = new unidadResidencial();      
-            unidadResidencial.name = req.body.name;
-            unidadResidencial.codigo = req.body.codigo;
-            unidadResidencial.inmueble = req.body.inmueble;
+            var unidadResidencial = new alarmas();      // create a new instance of the Bear model
+            unidadResidencial.name = req.body.alarma;
+            unidadResidencial.codigo = req.body.codigo; // set the bears name (comes from the request)
 
             // save the bear and check for errors
-            unidadResidencial.save(function(err) {
+            alarma.save(function(err) {
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'Unidad Residencial creada!' });
+                res.json({ message: 'Alarma created!' });
             });
 
         });
@@ -201,40 +152,7 @@ router.route('/unidadResidencial/:unidadResidencial')
         });
     });
 
-// on routes that end in /bears
-// ----------------------------------------------------
 
-
-router.route('/inmbuebles')
-
-      .get(function(req, res) {
-      console.log('entró 1');
-      inmueble.find({}, function finded(err, media){
-          if(err){
-            console.log('errosrasfjabf')
-          };
-          console.log(media);
-          res.json({media});
-        }); console.log('JUEPUTA');
-      })
-
-    .post(function(req, res) {
-
-        var inmueble = new inmueble();      // create a new instance of the Bear model
-        inmueble.name = req.body.name;
-        inmueble.codUnidadResidencial = req.body.codUnidadResidencial;
-        inmueble.id = req.body.id;
-        inmueble.codHub = req.body.codHub; // set the bears name (comes from the request)
-
-        // save the bear and check for errors
-        alarma.save(function(err) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'Alarma created!' });
-        });
-
-    });
 
 
 // REGISTER OUR ROUTES -------------------------------
