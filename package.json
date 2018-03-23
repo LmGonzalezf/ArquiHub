@@ -6,15 +6,8 @@
   "version": "",
   "description": "App de NodeJS para Aquihub",
   "dependencies": {
-<<<<<<< HEAD
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "mongoose": "^5.0.11"
-=======
-    "mongoose": "~3.6.11",
-    "express": "^4.7.1",
-    "method-override": "^2.1.2",
-    "body-parser": "^1.5.1"
->>>>>>> 07f765fea216a6504f6c8dfa0cf18cf89ab8a643
   }
 }

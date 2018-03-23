@@ -60,7 +60,7 @@ router.route('/alarmas')
     .post(function(req, res) {
 
         var alarma = new alarmas();      // create a new instance of the Bear model
-        alarma.name = req.body.alarma;
+        alarma.name = req.body.name;
         alarma.descripcion = req.body.descripcion;
         alarma.date = req.body.date;
         alarma.codigo = req.body.codigo; // set the bears name (comes from the request)
