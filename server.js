@@ -4,13 +4,19 @@
 // =============================================================================
 
 // call the packages we need
-var Bear     = require('./models/bear');
+var alarmas     = require('./models/alarmas');
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/Alarmas'); // connect to our database
+var url = 'mongodb://localhost:27017/ArquiHub';
 
+mongoose.connect(url, function(err, db) {
+  if (err) throw err;
+  console.log("Database joined");
+});
+console.log(mongoose.connection.readyState);
+var db = mongoose.connection;
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,33 +37,47 @@ router.use(function(req, res, next) {
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });
+  console.log(mongoose.connection.readyState);
 });
 
 // more routes for our API will happen here
 
 // on routes that end in /bears
 // ----------------------------------------------------
-router.route('/bears')
 
-    // create a bear (accessed at POST http://localhost:8080/api/bears)
+
+router.route('/alarmas')
+
+    .get(function(req, res) {
+      console.log('entró 1');
+        alarmas.find({}, function finded(err, media){
+          if(err){console.log('errosrasfjabf')};
+          console.log(media);
+          res.json({media});
+        }); console.log('JUEPUTA');
+    })
+
     .post(function(req, res) {
 
-        var bear = new Bear();      // create a new instance of the Bear model
-        bear.name = req.body.name;  // set the bears name (comes from the request)
-        bear.codigo = req.body.codigo;
-        bear.descripcion = req.body.descripcion;
-        bear.date = req.body.date;
+        var alarma = new alarmas();      // create a new instance of the Bear model
+        alarma.name = req.body.alarma;
+        alarma.descripcion = req.body.descripcion;
+        alarma.date = req.body.date;
+        alarma.codigo = req.body.codigo; // set the bears name (comes from the request)
 
         // save the bear and check for errors
-        bear.save(function(err) {
+        alarma.save(function(err) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Bear created!' });
+            res.json({ message: 'Alarma created!' });
         });
 
     });
+
+
+
+
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
