@@ -1,11 +1,19 @@
-var cerradura = require('./cerradura.js')
+// app/models/hub.js
+
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
 var hub   = new Schema({
     name: String,
     codigo: String,
-    cerradura: cerradura,
+    inmueble:{
+      type: Schema.Types.ObjectId,
+      ref:'inmueble'
+    },
+    cerraduras: [{
+      type: Schema.Types.ObjectId,
+      ref:'cerraduras'
+    }]
 });
 
-module.exports = mongoose.model('hub', hub);
+module.exports = mongoose.model('hubs', hub);

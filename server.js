@@ -5,7 +5,11 @@
 
 // call the packages we need
 var alarmas     = require('./models/alarmas');
-var unidadResidencial     = require('./models/unidadResidencial');
+var unidadController     = require('./controllers/unidadResidencial');
+var inmuebleController     = require('./controllers/inmueble');
+var hubController     = require('./controllers/hub');
+var cerraduraController     = require('./controllers/cerradura');
+
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
@@ -78,81 +82,45 @@ router.route('/alarmas')
         });
 
     });
-// ruta terminada en /unidadResidencial
+// ruta de /unidadResidencial
 // ----------------------------------------------------
-    router.route('/unidadResidencial')
-
-          .get(function(req, res) {
-          console.log('entró 1');
-          unidadResidencial.find({}, function finded(err, media){
-              if(err){
-                console.log('errosrasfjabf')
-              };
-              console.log(media);
-              res.json({media});
-            });
-          console.log('JUEPUTA');
-          })
-        .post(function(req, res) {
-
-            var unidadResidencial = new alarmas();      // create a new instance of the Bear model
-            unidadResidencial.name = req.body.alarma;
-            unidadResidencial.codigo = req.body.codigo; // set the bears name (comes from the request)
-
-            // save the bear and check for errors
-            alarma.save(function(err) {
-                if (err)
-                    res.send(err);
-
-                res.json({ message: 'Alarma created!' });
-            });
-
-        });
-// ruta terminada en /unidadResidencial
+router.route('/unidadResidencial')
+    .get(unidadController.unidades)
+    .post(unidadController.nuevaUnidad);
+router.route('/unidadResidencial/:unidadId')
+    .get(unidadController.darUnidad)
+    .put(unidadController.editarUnidad)
+    .delete(unidadController.borrarUnidad);
+router.route('/unidadResidencial/:unidadId/inmuebles')
+    .get(unidadController.darUnidadInmuebles)
+    .post(unidadController.nuevoUnidadInmueble);
+// ruta de /inmuebles
 // ----------------------------------------------------
-router.route('/unidadResidencial/:unidadResidencial')
-
-    .get(function(req, res) {
-        unidadResidencial.findById(req.params.unidad_id, function finded(err, media){
-            if(err){
-              console.log('errosrasfjabf')
-            };
-            console.log(media);
-            res.json({media});
-          });
-    })
-    .put(function(req, res) {
-
-        // use our bear model to find the bear we want
-        unidadResidencial.findById(req.params.unidad_id, function(err, media) {
-
-            if (err)
-                res.send(err);
-
-            unidadResidencial.name = req.body.name;  // update the bears info
-
-            // save the bear
-            unidadResidencial.save(function(err) {
-                if (err)
-                    res.send(err);
-
-                res.json({ message: 'unidadResidencial updated!' });
-            });
-
-        });
-    })
-    .delete(function(req, res) {
-        unidadResidencial.remove({
-            _id: req.params.unidad_id
-        }, function(err, media) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'Successfully deleted' });
-        });
-    });
-
-
+router.route('/inmuebles')
+    .get(inmuebleController.inmuebles);
+router.route('/inmuebles/:inmuebleId')
+    .get(inmuebleController.darInmueble)
+    .put(inmuebleController.editarInmueble);
+router.route('/inmuebles/:inmuebleId/hubs')
+    .get(inmuebleController.darInmuebleHubs)
+    .post(inmuebleController.nuevoInmuebleHub);
+// ruta de /hubs
+// ----------------------------------------------------
+router.route('/hubs')
+    .get(hubController.hubs);
+router.route('/hubs/:hubId')
+    .get(hubController.darHub)
+    .put(hubController.editarHub);
+router.route('/hubs/:hubId/cerradura')
+    .get(hubController.darHubCerraduras)
+    .post(hubController.nuevoHubCerradura);
+// ruta de /hubs
+// ----------------------------------------------------
+router.route('/cerraduras')
+    .get(cerraduraController.cerraduras);
+router.route('/cerraduras/:cerraduraId')
+    .get(cerraduraController.darCerradura)
+    .put(cerraduraController.editarCerradura);
 
 
 // REGISTER OUR ROUTES -------------------------------
